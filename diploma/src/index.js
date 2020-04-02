@@ -6,9 +6,11 @@ import valid from './modules/valid';
 // import popup2 from './modules/popup2';
 import accord from './modules/accord';
 // import discount from './modules/discount';
-// import calcAccord from './modules/calcAccord';
+import calcAccord from './modules/calcAccord';
 // import buttonMore from './modules/buttonMore';
 // import popup3 from './modules/popup3';
+import animateBtn from './modules/animateBtn';
+import animateImg from './modules/animateImg';
 
 
 // popup1
@@ -24,9 +26,14 @@ accord();
 // discount
 // discount();
 // calculator - accordion
-// calcAccord();
+calcAccord();
 // button "More"
 // buttonMore();
 // popup3 + sending data from form
 // popup3();
+// buttons animation
+animateBtn();
+// expand Images animation
+animateImg();
+
 
