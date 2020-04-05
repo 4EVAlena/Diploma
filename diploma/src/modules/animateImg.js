@@ -21,9 +21,9 @@ const animateImg = () => {
                 if (!currentImg) return;
                     let relatedTarget = event.relatedTarget;
 
-                while (relatedTarget) {            
-                    if (relatedTarget == currentImg) return;                    
-                }      
+                // while (relatedTarget) {            
+                //     if (relatedTarget == currentImg) return;                    
+                // }      
                     currentImg.style.border = '';
                     currentImg.style.transition = '';
                     currentImg.style.transform = '';
