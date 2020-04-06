@@ -23,7 +23,7 @@ const animateBtn = () => {
                 let relatedTarget = event.relatedTarget;
 
             while (relatedTarget) {            
-                if (relatedTarget == currentButton) return;
+                if (relatedTarget === currentButton) return;
                     relatedTarget = relatedTarget.parentNode;
             }      
                 currentButton.style.background = '';

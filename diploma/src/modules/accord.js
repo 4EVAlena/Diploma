@@ -10,7 +10,6 @@ const accord = () => {
                 e.preventDefault();
 
                 let target = e.target.closest('.panel-heading');
-                // вернуть обратно:
                 target.classList.toggle("in");
 
                 let panelCollapse = target.nextElementSibling;
