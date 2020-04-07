@@ -3,12 +3,13 @@ const sendForm = () => {
         loadMessage = 'Загрузка...',
         successMessage = 'Спасибо! Мы скоро с Вами свяжемся!';
 
+    // проверь класс 3-го модального окна
     const forms = document.querySelectorAll('form.capture-form, form.main-form'); 
     const inputs = document.querySelectorAll('input');
 
 
     const statusMessage = document.createElement('div');
-    statusMessage.style.cssText = 'font-size: 30px; color: #19b5fe';
+    statusMessage.style.cssText = 'font-size: 2rem; color: #19b5fe';
 
     forms.forEach(form => {
         form.addEventListener('submit', event => {

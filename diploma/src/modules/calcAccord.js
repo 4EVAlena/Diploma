@@ -8,76 +8,48 @@ const calcAccord = () => {
     const firstInput = document.querySelector(".onoffswitch-checkbox#myonoffswitch");
     const secondInput = document.querySelector(".onoffswitch-checkbox#myonoffswitch-two");
     const titles = section.querySelectorAll(".title-text");
+    const titleToHide = section.querySelectorAll(".title-text")[1];
     const boxes = section.querySelectorAll(".select-box");
+    const box1ToHide = section.querySelectorAll(".select-box")[2];
+    const box2ToHide = section.querySelectorAll(".select-box")[3];
     const selects = section.querySelectorAll(".form-control");
+    const select1 = section.querySelectorAll(".form-control")[0];    
+    const select2 = section.querySelectorAll(".form-control")[1];    
     const select3 = section.querySelectorAll(".form-control")[2];
-    const optionsSelect3 = select3.querySelectorAll("option");
-    const select4 = section.querySelectorAll(".form-control")[3];
-    const optionsSelect4 = select4.querySelectorAll("option");
-
+    const select4 = section.querySelectorAll(".form-control")[3];    
     const calcResult = section.querySelector('#calc-result');
     const options = document.querySelectorAll("option");
+    const distance = section.querySelector("#collapseFour input");
 
-    let result = 0;    
-    let standartPrice = 10000; // базовая стоимость
-    let variant = 1;
-    let countOne = 1; // коэф диаметра одного септика
-    let countTwo = 1; // коэф колец одного септика
-    let countThree = 1; // коэф диаметра дренажного септика
-    let countFour = 1; // коэф колец дренажного септика
-    let floor = 0;
+    // эти значения будут после загрузке страницы
+    let oneCameraDiameter = select1.value = '1.4 метра',
+        oneCameraRingQuantity = select2.value = '1 штука',
+        twoCameraDiameter = select3.value = '1.4 метра',
+        twoCameraRingQuantity = select4.value = '1 штука',
+        camera = firstInput.checked = true,
+        bottom = secondInput.checked = false,
+        distanceToBuilding = distance.value = '',
+        basicPrice = 10000;
+        calcResult.value = basicPrice;
 
-    const getResult = () => {
-        if (variant === 1) {
-            return ((result + standartPrice) + floor);
-        } else if (variant === 11) {
-            return (((result + standartPrice) * countOne * countTwo) + floor);
-        } else if (variant === 2) {
-            return (((result + standartPrice) * countOne * countTwo) + 
-            ((result + standartPrice) * countThree * countFour) + floor);
-        }     
-    };
+        titleToHide.style.display = "none";
+        box1ToHide.style.display = "none";
+        box2ToHide.style.display = "none";
 
-    const resetCalc = () => {
-        selects.forEach(select => {
-            select.value = select.options[0].value;
-        });
-        calcResult.value = 0;
-        result = 0;
-        standartPrice = 10000;    
-        countOne = 1;    
-        countTwo = 1;
-        countThree = 1;    
-        countFour = 1;
-        variant = 1;
-        floor = 0;
-    };
+        const countSum = () => {
+        // переменные для калькуляции
+        let result = 0,
+            firstDiameterPrice = 0, 
+            secondDiameterPrice = 0,
+            oneCameraRingPrice = 0,
+            twoCameraRingPrice = 0,
+            oneBottomPrice = 0,
+            twoBottomPrice = 0;
 
-    const eraseSelect3OptionsValue = () => {
-        optionsSelect3.forEach((opti, index) => {
-            opti[index].value ='';
-        });
-    };
-    const eraseSelect4OptionsValue = () => {
-        optionsSelect4.forEach((opti, index) => {
-            opti[index].value ='';
-        });
-    };
+            calcResult.value = result + firstDiameterPrice + oneCameraRingPrice + oneBottomPrice +
+                                        secondDiameterPrice + twoCameraRingPrice + twoBottomPrice;
 
-    const insertSelect3OptionsValue = () => {
-        optionsSelect3.forEach((opti, index) => {
-            opti[0].value ="1.4 метра";
-            opti[1].value ="2 метра";
-        });
-    };
-    const insertSelect4OptionsValue = () => {
-        optionsSelect4.forEach((opti, index) => {
-            opti[0].value ="1 штука";
-            opti[1].value ="2 штуки";
-            opti[2].value ="3 штуки";
-        });
-    };
-
+                
         tabs.forEach(tab => {
             tab.addEventListener("click", (e) => {
                 e.preventDefault();
@@ -104,190 +76,135 @@ const calcAccord = () => {
                 });
             }    
         });
+        
+        // const resetCalc = () => {
+        //     selects.forEach(select => {
+        //         select.value = select.options[0].value;
+        //     });
+        //     result = 0,
+        //     firstDiameterPrice = 0, 
+        //     secondDiameterPrice = 0,
+        //     oneCameraRingPrice = 0,
+        //     twoCameraRingPrice = 0,
+        //     oneBottomPrice = 0,
+        //     twoBottomPrice = 0;
+        // };    
 
+    // собраем данные с 1-й, 2-й и 4-й секции калькулятора аккордиона и ведем подсчет
         calcBlock.addEventListener("change", (e) => {
             e.preventDefault();
             let target = e.target;
-            if(target.matches("#myonoffswitch.onoffswitch-checkbox")) {
-    
-                // чистим форму
-                resetCalc();
-                variant = 11;
+            if(target.matches("#myonoffswitch.onoffswitch-checkbox")) {    
+                // очистим форму
+                // resetCalc();
                 // выбираем однокамерный, скрываем селекты с индексами 2 и 3 и заголовок
-                if (firstInput.checked === true) {
-                    titles.forEach((title, index) => {
-                        if (index === 1) {
-                            title.style.display = "none";
-                        }
-                    });
-                    boxes.forEach((box, index) => {
-                        if (index === 2 || index === 3) {
-                            box.style.display = "none";
-                            // eraseSelect3OptionsValue();
-                            // eraseSelect4OptionsValue();                            
-                        }
-                    });
-                    standartPrice = 10000;
-                    calcResult.value = getResult();                                   
-                } else {
-                    resetCalc();
-                    standartPrice = 15000;
+                    if (firstInput.checked === true) {
+                        titles.forEach((title, index) => {
+                            if (index === 1) {
+                                title.style.display = "none";
+                            }
+                        });
+                        boxes.forEach((box, index) => {
+                            if (index === 2 || index === 3) {
+                                box.style.display = "none";                                  
+                            }
+                        });
+                        result = basicPrice;
+                    } else {
+                        // resetCalc();
+                        titleToHide.style.display = "block";
+                        box1ToHide.style.display = "block";
+                        box2ToHide.style.display = "block";
+                        basicPrice = 15000;
+                        result = basicPrice;
 
-                    titles.forEach((title, index) => {
-                        if (index === 1) {
-                            title.style.display = "inline-block";
-                        }
-                    });
-                    boxes.forEach((box, index) => {
-                        if (index === 2 || index === 3) {
-                            box.style.display = "inline-block";
-                            // insertSelect3OptionsValue();
-                            // insertSelect4OptionsValue();
-                        }
-                    });
-                    calcResult.value = getResult();
-                }
-              
-            // секция опций   
-            } else if (target.matches(".constructor .form-control")) {
-                    variant = 11;
-                    console.log(target.matches(".constructor .form-control"));
-        
-                    selects.forEach((select, index) => {
-                        console.log(select.value);
-                        options.forEach(option => {
-                        // если один колодец диаметром 1,4 метра
-                                if (firstInput.checked === true && 
-                                            select[0].value === "1.4 метра" && 
-                                            select[1].value === "3 штуки") {
-                                    console.log(1);
-                                    standartPrice = 10000;
-                                    countOne = 1;
-                                    countTwo = 1.5;                
-                                    variant = 11;
-                                    // console.log(select);
-                                    console.log("floor: ", floor);
-                                    console.log("countOne: ", countOne);
-                                    console.log("countTwo: ", countTwo);
-                                    console.log("standartPrice: ", standartPrice);
-                                    console.log("result: ", result);
-                                    console.log(getResult());
-                                } else if (firstInput.checked === true && 
-                                            option.value === "1.4 метра" && 
-                                            option.value === "2 штуки") {
-                                                console.log("success");
-                                    countOne = 1;
-                                    countTwo = 1.3;                
-                                    variant = 11;   
-                                    console.log("floor: ", floor);
-                                    console.log("countOne: ", countOne);
-                                    console.log("countTwo: ", countTwo);
-                                    console.log("standartPrice: ", standartPrice);
-                                    console.log("result: ", result);
-                                    console.log(getResult());
-                                } else if (firstInput.checked === true && 
-                                            select.value === "1.4 метра" && 
-                                            select.value === "1 штука") {
-                                    countTwo = 1; 
-                                    standartPrice = 10000;
-                                    countOne = 1;
-                                    countTwo = 1;                
-                                    variant = 11;
-                                    console.log("floor: ", floor);
-                                    console.log("countOne: ", countOne);
-                                    console.log("countTwo: ", countTwo);
-                                    console.log("standartPrice: ", standartPrice);
-                                    console.log("result: ", result);
-                                    console.log(getResult());
-                                }   else if (firstInput.checked === false &&
-                                            select.value === "1.4 метра" && 
-                                            select.value === "1 штука" && 
-                                            select.value === "1.4 метра" && 
-                                            select.value === "1 штука") {
-                                    variant = 2;
-                                    standartPrice = 15000;
-                                    countOne = 1;            
-                                    countTwo = 1;
-                                    countThree = 1;            
-                                    countFour = 1;
-                                    console.log("floor: ", floor);
-                                    console.log("countOne: ", countOne);
-                                    console.log("countTwo: ", countTwo);
-                                    console.log("standartPrice: ", standartPrice);
-                                    console.log("result: ", result);
-                                    console.log(getResult());
-                                } else if (firstInput.checked === false &&
-                                    select.value === "1.4 метра" && 
-                                    select.value === "2 штуки" && 
-                                    select.value === "1.4 метра" && 
-                                    select.value === "1 штука") {
-                                    variant = 2;
-                                    standartPrice = 15000;
-                                    countOne = 1;            
-                                    countTwo = 1.3;
-                                    countThree = 1;            
-                                    countFour = 1;
-                                    console.log("floor: ", floor);
-                                    console.log("countOne: ", countOne);
-                                    console.log("countTwo: ", countTwo);
-                                    console.log("standartPrice: ", standartPrice);
-                                    console.log("result: ", result);
-                                    console.log(getResult());
-                                } else if (firstInput.checked === false &&
-                                    select.value === "1.4 метра" && 
-                                    select.value === "3 штуки" && 
-                                    select.value === "1.4 метра" && 
-                                    select.value === "1 штука") {
-                                    variant = 2;
-                                    standartPrice = 15000;
-                                    countOne = 1;            
-                                    countTwo = 1.5;
-                                    countThree = 1;            
-                                    countFour = 1;
-                                    console.log("floor: ", floor);
-                                    console.log("countOne: ", countOne);
-                                    console.log("countTwo: ", countTwo);
-                                    console.log("standartPrice: ", standartPrice);
-                                    console.log("result: ", result);
-                                    console.log(getResult());
-                                } else if (firstInput.checked === false &&
-                                    select.value === "2 метра" && 
-                                    select.value === "1 штука" && 
-                                    select.value === "1.4 метра" && 
-                                    select.value === "1 штука") {
-                                    variant = 2;
-                                    standartPrice = 15000;
-                                    countOne = 1.2;            
-                                    countTwo = 1;
-                                    countThree = 1;            
-                                    countFour = 1;
-                                    console.log("floor: ", floor);
-                                    console.log("countOne: ", countOne);
-                                    console.log("countTwo: ", countTwo);
-                                    console.log("standartPrice: ", standartPrice);
-                                    console.log("result: ", result);
-                                    console.log(getResult());
-                                }     
-                            });                 
-                  
-                });    
-                
-                // секция наличия днища       
+                        titles.forEach((title, index) => {
+                            if (index === 1) {
+                                title.style.display = "inline-block";
+                            }
+                        });
+                        boxes.forEach((box, index) => {
+                            if (index === 2 || index === 3) {
+                                box.style.display = "inline-block";                          
+                            }
+                        });
+                    } 
             } else if (target.matches("#myonoffswitch-two.onoffswitch-checkbox")) {
-                    variant = 11;
-                    floor = 0;
                 if (secondInput.checked === true && firstInput.checked === false) {
-                    floor = 2000;                 
-                    calcResult.value = getResult();
-                } else if (secondInput.checked === true) {
-                    floor = 1000;                       
-                    calcResult.value = getResult();
+                    twoBottomPrice = 2000;                 
+                } else if (bottom === true) {
+                    oneBottomPrice = 1000;                       
                 } else {
-                    floor = 0;                  
-                    calcResult.value = getResult();
+                    oneBottomPrice = 0;                  
                 }   
-            }    
-    });
+            } else if (target.matches("#collapseFour input")) {
+                distanceToBuilding = target.value;
+            }
+        });        
+
+        // собираем данные со 2-го блока калькулятора - с селектов и подгружаем их в подсчет
+        document.addEventListener('input', event => {
+            const target = event.target;
+            if (target.tagName.toLowerCase() === 'select') {
+                if (camera === true) {
+                    basicPrice = 10000;
+                    result = basicPrice;
+                    if (target.closest(select1)) {    // выбираем диаметр одиночного септика                   
+                        if (oneCameraDiameter === "2 метра") { // select1.value === "2 метра"
+                            firstDiameterPrice = +basicPrice * 0.2; // это будет 2000руб
+                        } else {
+                            firstDiameterPrice = +(basicPrice * 0);
+                        }                  
+                    }
+                    if (target.closest(select2)) { // выбираем количество колец одиночного септика      
+                        if (oneCameraRingQuantity === "2 штуки") { // select2.value === "2 штуки"
+                            oneCameraRingPrice = +basicPrice * 0.3; // это будет 3000руб
+                        } else if (oneCameraRingQuantity === "3 штуки") { // select2.value === "3 штуки"
+                            oneCameraRingPrice = +basicPrice * 0.5; // это будет 5000руб
+                        } else {
+                            oneCameraRingPrice = +(basicPrice * 0);
+                        }
+                    }
+                } else if (camera === false) {
+                    basicPrice = 15000;
+                    result = basicPrice;
+                    if (target.closest(select1)) {                        
+                        if (oneCameraDiameter === "2 метра") { // select1.value === "2 метра"
+                            firstDiameterPrice = +basicPrice * 0.2; // это будет 3000руб
+                        } else {
+                            firstDiameterPrice = +(basicPrice * 0);
+                        }                   
+                    }
+                    if (target.closest(select2)) {
+                        if (oneCameraRingQuantity === "2 штуки") { // select2.value === "2 штуки"
+                            oneCameraRingPrice = +basicPrice * 0.3; // это будет 4500руб
+                        } else if (oneCameraRingQuantity === "3 штуки") { // select2.value === "3 штуки"
+                            oneCameraRingPrice = +basicPrice * 0.5; // это будет 7500руб
+                        } else {
+                            oneCameraRingPrice = +(basicPrice * 0);
+                        }
+                    }
+                    if (target.closest(select3)) {
+                        if (twoCameraDiameter === "2 метра") { // select1.value === "2 метра"
+                            secondDiameterPrice = +basicPrice * 0.2; // это будет 3000руб
+                        } else {
+                            secondDiameterPrice = +(basicPrice * 0);
+                        } 
+                    }
+                    if (target.closest(select4)) {
+                        if (twoCameraRingQuantity === "2 штуки") { // select2.value === "2 штуки"
+                            twoCameraRingPrice = +basicPrice * 0.3; // это будет 4500руб
+                        } else if (twoCameraRingQuantity === "3 штуки") { // select2.value === "3 штуки"
+                            twoCameraRingPrice = +basicPrice * 0.5; // это будет 7500руб
+                        } else {
+                            twoCameraRingPrice = +(basicPrice * 0);
+                        }
+                    }
+                }    
+            }
+        });
+    };
+countSum();
 
 };
 
