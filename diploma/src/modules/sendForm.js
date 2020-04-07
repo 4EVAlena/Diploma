@@ -19,12 +19,23 @@ const sendForm = () => {
             form.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;  
             const formData = new FormData(form);
-            let bufferObj = {};
             const body = {};
+            
             formData.forEach((val, key) => {
                 body[key] = val;
-                calcData[key] = val;         
             }); 
+
+            if (form.id === "calcFormBlock") {
+                body["расстояние до дома"] = document.
+                getElementById("collapseFour")
+                .querySelector("input").value;
+            }
+
+            if (form.id === "consultDirectorBlock") {
+                body["Вопрос-консультация у директора"] = document.
+                querySelector(".director-form")
+                .querySelector("input").value;
+            }
 
             const postData = body => {
                 return fetch ('./server.php', {
@@ -35,14 +46,8 @@ const sendForm = () => {
                     body: JSON.stringify(body),
                 });
             };    
-
-            if (target.closest('.popup-discount')) {
-                bufferObj = calcData;
-            } else {
-                bufferObj = body;
-            }
             
-            postData(bufferObj)
+            postData(body)
                 .then( response => {
                     if (response.status !== 200) {
                         throw new Error('status network not 200');
@@ -57,7 +62,6 @@ const sendForm = () => {
                     setTimeout(() => {
                         inputs.forEach(item => item.value = '');
                         statusMessage.innerText = '';   
-                        bufferObj = {};                            
                     }, 5000);
                 }); 
         });
