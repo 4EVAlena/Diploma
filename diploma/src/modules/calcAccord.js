@@ -1,21 +1,19 @@
 'use strict';
 const calcAccord = () => {
-    const section = document.querySelector(".constructor");
-    const tabs = section.querySelectorAll(".panel-heading");
-    const collapses = section.querySelectorAll(".collapse");
-    const buttons = section.querySelectorAll(".construct-btn");
-    const titleToHide = section.querySelectorAll(".title-text")[1];
-    const box1ToHide = section.querySelectorAll(".select-box")[2];
-    const box2ToHide = section.querySelectorAll(".select-box")[3];
-  
-    //   ________________________________________________________________
-  
-    const accordBlock = document.getElementById("accordion");
-    const calcResult = document.getElementById("calc-result");
-    const selects = accordBlock.querySelectorAll("select");
-    const boxes = accordBlock.querySelectorAll(".select-box");
-    const titles = accordBlock.querySelectorAll(".title-text");
-  
+    const section = document.querySelector(".constructor"),
+      tabs = section.querySelectorAll(".panel-heading"),
+      collapses = section.querySelectorAll(".collapse"),
+      buttons = section.querySelectorAll(".construct-btn"),
+      titleToHide = section.querySelectorAll(".title-text")[1],
+      box1ToHide = section.querySelectorAll(".select-box")[2],
+      box2ToHide = section.querySelectorAll(".select-box")[3],  
+      //   ________________________________________________________________  
+      accordBlock = document.getElementById("accordion"),
+      calcResult = document.getElementById("calc-result"),
+      selects = accordBlock.querySelectorAll("select"),
+      boxes = accordBlock.querySelectorAll(".select-box"),
+      titles = accordBlock.querySelectorAll(".title-text");
+    
     let prices = {
       oneVariant: 10000,
       twoVariant: 15000,
@@ -24,11 +22,10 @@ const calcAccord = () => {
       thirdSelectValue: 1,
       fourthSelectValue: 1,
       dopValue: 1000,
-    };
-    let variant = prices.oneVariant;
-    let dopVal = prices.dopValue;
-    // __________________________________________________________________
-  
+    },
+      variant = prices.oneVariant,
+      dopVal = prices.dopValue;
+    // __________________________________________________________________  
     titleToHide.style.display = "none";
     box1ToHide.style.display = "none";
     box2ToHide.style.display = "none";
@@ -60,9 +57,14 @@ const calcAccord = () => {
         }
       });
     };
-  
-    const showResult = (formula) => {
-      calcResult.value = formula;
+
+    const showResult = () => {
+      calcResult.value = variant *
+      prices.firstSelectValue *
+      prices.secondSelectValue *
+      prices.thirdSelectValue *
+      prices.fourthSelectValue +
+      dopVal;
     };
   
     const calc = () => {
@@ -85,15 +87,7 @@ const calcAccord = () => {
                 title.style.display = "none";
               }
             });
-  
-            showResult(
-              variant *
-                prices.firstSelectValue *
-                prices.secondSelectValue *
-                prices.thirdSelectValue *
-                prices.fourthSelectValue +
-                dopVal
-            );
+            showResult();
           } else {
             variant = prices.twoVariant;
             dopVal = 2000;
@@ -108,15 +102,7 @@ const calcAccord = () => {
                 title.style.display = "inline-block";
               }
             });
-  
-            showResult(
-              variant *
-                prices.firstSelectValue *
-                prices.secondSelectValue *
-                prices.thirdSelectValue *
-                prices.fourthSelectValue +
-                dopVal
-            );
+            showResult();
           }
         }
   
@@ -134,77 +120,33 @@ const calcAccord = () => {
           } else {
             dopVal = 0;
           }
-  
-          showResult(
-            variant *
-              prices.firstSelectValue *
-              prices.secondSelectValue *
-              prices.thirdSelectValue *
-              prices.fourthSelectValue +
-              dopVal
-          );
+          showResult();    
         }
   
         //   проверка на первый select
         if (target === selects[0]) {
           prices.firstSelectValue = +target.value;
-          showResult(
-            variant *
-              prices.firstSelectValue *
-              prices.secondSelectValue *
-              prices.thirdSelectValue *
-              prices.fourthSelectValue +
-              dopVal
-          );
+          showResult();
         }
         //   проверка на второй select
         if (target === selects[1]) {
           prices.secondSelectValue = +target.value;
-          showResult(
-            variant *
-              prices.firstSelectValue *
-              prices.secondSelectValue *
-              prices.thirdSelectValue *
-              prices.fourthSelectValue +
-              dopVal
-          );
+          showResult();
         }
   
         // проверка на третий select
         if (target === selects[2]) {
           prices.thirdSelectValue = +target.value;
-          showResult(
-            variant *
-              prices.firstSelectValue *
-              prices.secondSelectValue *
-              prices.thirdSelectValue *
-              prices.fourthSelectValue +
-              dopVal
-          );
+          showResult();
         }
   
         // проверка на четвертый select
         if (target === selects[3]) {
           prices.fourthSelectValue = +target.value;
-          showResult(
-            variant *
-              prices.firstSelectValue *
-              prices.secondSelectValue *
-              prices.thirdSelectValue *
-              prices.fourthSelectValue +
-              dopVal
-          );
+          showResult();
         }
       });
-  
-      showResult(
-        variant *
-          prices.firstSelectValue *
-          prices.secondSelectValue *
-          prices.thirdSelectValue *
-          prices.fourthSelectValue +
-          dopVal
-      );
+      showResult();
     };
   
     calc();
