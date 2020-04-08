@@ -14,10 +14,14 @@ const sendForm = () => {
     
         document.addEventListener('submit', event => {
             let target = event.target;
-            // if (!target.matches('button[type="submit"]')) {
-            //      return;
-            // }
             event.preventDefault();
+
+            if (!target.matches('button[type="submit"]') && 
+                 target.matches('.popup-close') &&
+                 target.type.toLowerCase() !== 'button' &&
+                 target.tagName.toLowerCase() !== 'button') {
+                 return;
+            }
             target.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;  
             const formData = new FormData(target);
@@ -42,29 +46,35 @@ const sendForm = () => {
                 if (document.getElementById("myonoffswitch").checked) {
                     if (document.getElementById("select-one")) {
                         body["Диаметр первого септика"] = document.
-                        getElementById("select-one").querySelector("option")
-                        .textContent;   
+                        getElementById("select-one").options[document.
+                            getElementById("select-one").selectedIndex].textContent;                          
+                           
                     } 
                     if (document.getElementById("select-two")) {
                         body["Количество колец первого септика"] = document.
-                        getElementById("select-two").querySelector("option").textContent;
+                        getElementById("select-two").options[document.
+                            getElementById("select-two").selectedIndex].textContent; 
                     }
                 } else {
                     if (document.getElementById("select-one")) {
                         body["Диаметр первого септика"] = document.
-                        getElementById("select-one").querySelector("option").textContent;
+                        getElementById("select-one").options[document.
+                            getElementById("select-one").selectedIndex].textContent; 
                     }
                     if (document.getElementById("select-two")) {
                         body["Количество колец первого септика"] = document.
-                        getElementById("select-two").querySelector("option").textContent;
+                        getElementById("select-two").options[document.
+                            getElementById("select-two").selectedIndex].textContent; 
                     }
                     if (document.getElementById("select-three")) {
                         body["Диаметр второго септика"] = document.
-                        getElementById("select-three").querySelector("option").textContent;
+                        getElementById("select-three").options[document.
+                            getElementById("select-three").selectedIndex].textContent; 
                     } 
                     if (document.getElementById("select-four")) {
                         body["Количество колец второго септика"] = document.
-                        getElementById("select-four").querySelector("option").textContent;
+                        getElementById("select-four").options[document.
+                            getElementById("select-four").selectedIndex].textContent; 
                     }
                 }    
             }
