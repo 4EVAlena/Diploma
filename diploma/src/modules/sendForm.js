@@ -24,8 +24,9 @@ const sendForm = () => {
                 body[key] = val;
             });           
 
-            if (target.id === "myonoffswitch") {
-                if (target.checked) {
+            // сбор данных с первой секции
+            if (target.id === "calcFormBlock") {
+                if (document.getElementById("myonoffswitch").checked) {
                     body["Однокамерный септик"] = document.
                     getElementById("myonoffswitch").value;
                 } else {
@@ -33,10 +34,39 @@ const sendForm = () => {
                     getElementById("myonoffswitch").value;
                 }   
             }
-
-            if (target.id === "collapseThree") {
-                if (target.checked &&
-                    document.getElementById("myonoffswitch").checked) {
+            // сбор данных со второй секции
+            if (target.id === "calcFormBlock") {
+                if (document.getElementById("myonoffswitch").checked) {
+                    if (target === document.getElementById("select-one")) {
+                        body["Диаметр первого септика"] = document.
+                        getElementById("select-one").value;
+                    } 
+                    if (target === document.getElementById("select-two")) {
+                        body["Количество колец первого септика"] = document.
+                        getElementById("select-two").value;
+                    }
+                } else {
+                    if (target === document.getElementById("select-one")) {
+                        body["Диаметр первого септика"] = document.
+                        getElementById("select-one").value;
+                    }
+                    if (target === document.getElementById("select-two")) {
+                        body["Количество колец первого септика"] = document.
+                        getElementById("select-two").value;
+                    }
+                    if (target === document.getElementById("select-three")) {
+                        body["Диаметр второго септика"] = document.
+                        getElementById("select-three").value;
+                    } 
+                    if (target === document.getElementById("select-four")) {
+                        body["Диаметр колец второго септика"] = document.
+                        getElementById("select-four").value;
+                    }
+                }    
+            }
+            // сбор данных с третьей секции
+            if (target.id === "calcFormBlock") {
+                if (document.getElementById("myonoffswitch-two")) {
                     body["Днище колодца необходимо"] = document.
                     getElementById("myonoffswitch-two").value;
                 } else {
@@ -44,13 +74,13 @@ const sendForm = () => {
                     getElementById("myonoffswitch-two").value;
                 }   
             }
-
+            // сбор данных с четвертой секции
             if (target.id === "calcFormBlock") {
                 body["расстояние до дома"] = document.
                 getElementById("collapseFour")
                 .querySelector("input").value;
             }           
-
+            // сбор данных с инпута "Введите свой вопрос" ком.дир.
             if (target.id === "consultDirectorBlock") {
                 body["Вопрос-консультация у директора"] = document.
                 querySelector(".director-form")
