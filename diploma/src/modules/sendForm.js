@@ -4,7 +4,7 @@ const sendForm = () => {
         successMessage = 'Спасибо! Мы скоро с Вами свяжемся!';
 
     // const forms = document.querySelectorAll('form.capture-form, form.main-form'); 
-    const forms = document.querySelectorAll('form'); 
+    // const forms = document.querySelectorAll('form'); 
     const inputs = document.querySelectorAll('input');
 
 
@@ -12,26 +12,46 @@ const sendForm = () => {
     statusMessage.style.cssText = 'font-size: 2rem; color: #19b5fe';
 
     
-    forms.forEach(form => {
-        form.addEventListener('submit', event => {
+        document.addEventListener('submit', event => {
             event.preventDefault();
             let target = event.target;
-            form.appendChild(statusMessage);
+            target.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;  
-            const formData = new FormData(form);
+            const formData = new FormData(target);
             const body = {};
             
             formData.forEach((val, key) => {
                 body[key] = val;
-            }); 
+            });           
 
-            if (form.id === "calcFormBlock") {
+            if (target.id === "myonoffswitch") {
+                if (target.checked) {
+                    body["Однокамерный септик"] = document.
+                    getElementById("myonoffswitch").value;
+                } else {
+                    body["Двухкамерный септик"] = document.
+                    getElementById("myonoffswitch").value;
+                }   
+            }
+
+            if (target.id === "collapseThree") {
+                if (target.checked &&
+                    document.getElementById("myonoffswitch").checked) {
+                    body["Днище колодца необходимо"] = document.
+                    getElementById("myonoffswitch-two").value;
+                } else {
+                    body["Днище колодца отсутствует"] = document.
+                    getElementById("myonoffswitch-two").value;
+                }   
+            }
+
+            if (target.id === "calcFormBlock") {
                 body["расстояние до дома"] = document.
                 getElementById("collapseFour")
                 .querySelector("input").value;
-            }
+            }           
 
-            if (form.id === "consultDirectorBlock") {
+            if (target.id === "consultDirectorBlock") {
                 body["Вопрос-консультация у директора"] = document.
                 querySelector(".director-form")
                 .querySelector("input").value;
@@ -65,7 +85,7 @@ const sendForm = () => {
                     }, 5000);
                 }); 
         });
-    });    
+        
       
 };
 

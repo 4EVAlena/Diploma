@@ -9,7 +9,6 @@ import animateBtn from './modules/animateBtn';
 import popupDiscount from './modules/popupDiscount';
 import popupConsultation from './modules/popupConsultation';
 import checkBtn from './modules/checklistBtn';
-import calcData from './modules/calcData';
 import sendForm from './modules/sendForm';
 
 // popup1
@@ -32,8 +31,6 @@ popupConsultation();
 checkBtn();
 // show hidden blocks
 buttonMore();
-// collecting calc data
-calcData();
 // sending form data
 sendForm();
 
