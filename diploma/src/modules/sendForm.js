@@ -13,8 +13,11 @@ const sendForm = () => {
 
     
         document.addEventListener('submit', event => {
-            event.preventDefault();
             let target = event.target;
+            // if (!target.matches('button[type="submit"]')) {
+            //      return;
+            // }
+            event.preventDefault();
             target.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;  
             const formData = new FormData(target);
@@ -37,36 +40,37 @@ const sendForm = () => {
             // сбор данных со второй секции
             if (target.id === "calcFormBlock") {
                 if (document.getElementById("myonoffswitch").checked) {
-                    if (target === document.getElementById("select-one")) {
+                    if (document.getElementById("select-one")) {
                         body["Диаметр первого септика"] = document.
-                        getElementById("select-one").value;
+                        getElementById("select-one").querySelector("option")
+                        .textContent;   
                     } 
-                    if (target === document.getElementById("select-two")) {
+                    if (document.getElementById("select-two")) {
                         body["Количество колец первого септика"] = document.
-                        getElementById("select-two").value;
+                        getElementById("select-two").querySelector("option").textContent;
                     }
                 } else {
-                    if (target === document.getElementById("select-one")) {
+                    if (document.getElementById("select-one")) {
                         body["Диаметр первого септика"] = document.
-                        getElementById("select-one").value;
+                        getElementById("select-one").querySelector("option").textContent;
                     }
-                    if (target === document.getElementById("select-two")) {
+                    if (document.getElementById("select-two")) {
                         body["Количество колец первого септика"] = document.
-                        getElementById("select-two").value;
+                        getElementById("select-two").querySelector("option").textContent;
                     }
-                    if (target === document.getElementById("select-three")) {
+                    if (document.getElementById("select-three")) {
                         body["Диаметр второго септика"] = document.
-                        getElementById("select-three").value;
+                        getElementById("select-three").querySelector("option").textContent;
                     } 
-                    if (target === document.getElementById("select-four")) {
-                        body["Диаметр колец второго септика"] = document.
-                        getElementById("select-four").value;
+                    if (document.getElementById("select-four")) {
+                        body["Количество колец второго септика"] = document.
+                        getElementById("select-four").querySelector("option").textContent;
                     }
                 }    
             }
             // сбор данных с третьей секции
             if (target.id === "calcFormBlock") {
-                if (document.getElementById("myonoffswitch-two")) {
+                if (document.getElementById("myonoffswitch-two".checked)) {
                     body["Днище колодца необходимо"] = document.
                     getElementById("myonoffswitch-two").value;
                 } else {
